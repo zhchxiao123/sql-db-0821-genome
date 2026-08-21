@@ -1,6 +1,6 @@
 id: decision-employee
 name: 决策员工
-runtime: agentteams
+runtime: claude-code
 model: default
 prompt: prompts/decision.md
 procedures:
