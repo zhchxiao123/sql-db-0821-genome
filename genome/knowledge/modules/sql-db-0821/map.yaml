@@ -2,5 +2,14 @@
 id: sql-db-0821
 entrypoints: []
 depends_on: []
-features: []
+doc: genome/knowledge/modules/sql-db-0821/overview.md
+confidence: 0.9
+features:
+- id: empty-scaffold
+  summary: 仓库当前只有 13 字节的 README.md 标题行(# sql-db-0821),没有任何业务代码、构建配置、测试或数据存储,模块整体处于空骨架状态。
+  scope:
+  - repos/sql-db-0821/README.md
+  produced_by: knowledge-init@2.5.0
+  no_card: 唯一的文件是一行 Markdown 标题,没有可提炼承重不变量、异常降级路径、测试证据或坑点的实现;写卡片只会复述 README,对后续任务没有信息量。真实代码落地后需重跑
+    knowledge-init 按命名规则拆真实功能点。
 submaps: []

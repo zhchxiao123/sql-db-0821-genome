@@ -1,21 +1,63 @@
-# AgentGenome 底座配置。字段说明见 docs/AgentGenome.md §13.3。
 runtime:
   default: claude-code
-  claude-code: {cmd: claude, max_turns: 100000000}
-concurrency: {global_jobs: 3}
-# 状态内部跑哪张图。single = 一个状态一次派发,也就是现状那条路。
-topology: {default: single, critique: {max_rounds: 100000000}, best_of_n: {max_attempts: 100000000}}
-budgets: {enforce: false, per_task_tokens: 100000000, per_job_tokens: 100000000, session_tokens: 100000000}
-limits: {max_fix_rounds: 100000000, job_timeout_s: 604800}
-itest: {timeout_s: 604800}
-genome_tasks: {per_task_tokens: 100000000}
+  runtimes:
+    claude-code:
+      cmd: claude
+      max_turns: 100000000
+      endpoint: null
+      consumer_token_env: null
+      transport: http
+      matrix_homeserver: null
+      matrix_room: null
+      matrix_token_env: null
+      storage_prefix: null
+      space_id: null
+      worker: null
+      mc_cmd: mc
+      agentteams_max_job_runtime_s: 3600
+      model_tiers: {}
+    agentteams:
+      transport: matrix-minio
+      endpoint: http://192.168.107.2:8090
+      consumer_token_env: AGENTTEAMS_CONSUMER_TOKEN
+      matrix_homeserver: http://192.168.107.2:8080
+      matrix_token_env: AGENTTEAMS_MATRIX_TOKEN
+      space_id: sql-db-0821
+      storage_prefix: agentteams/agentteams-storage
+      agentteams_max_job_runtime_s: '3600'
+  default_is_explicit: true
+concurrency:
+  global_jobs: 3
+topology:
+  default: single
+  critique:
+    max_rounds: 100000000
+  best_of_n:
+    max_attempts: 100000000
+budgets:
+  enforce: false
+  per_task_tokens: 100000000
+  per_job_tokens: 100000000
+  session_tokens: 100000000
+limits:
+  max_fix_rounds: 100000000
+  job_timeout_s: 604800
+itest:
+  timeout_s: 604800
+genome_tasks:
+  per_task_tokens: 100000000
 knowledge:
-  {root_index_lines: 150, module_map_lines: 200, card_lines: 300,
-   fragmentation_threshold: 3}
-evidence: {archive_dir: archive, log_retention_days: 30}
+  root_index_lines: 150
+  module_map_lines: 200
+  card_lines: 300
+  fragmentation_threshold: 3
+evidence:
+  archive_dir: archive
+  log_retention_days: 30
 approval:
   approvers: []
 platform:
   git_host: github
   protected_branch: main
-umodel: {enabled: false}
+umodel:
+  enabled: false
