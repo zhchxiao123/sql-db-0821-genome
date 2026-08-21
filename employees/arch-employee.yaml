@@ -1,25 +1,30 @@
-# 架构数字员工。只补认知,不碰业务代码。
 id: arch-employee
 name: 架构员工
-runtime: claude-code
+runtime: agentteams
 model: default
 prompt: prompts/arch.md
-
-# `knowledge init` 走专用命令不经 Procedure 派发;蒸馏类 Procedure 在 PRD 10 加进来。
-# **plan 类工序已移交决策员工**(PRD 40):它们是任务视角的决定,不是项目视角的治理。
-procedures: [experience-distill]
-
-# 它的活是读代码、写认知:勘察怎么起、按需取知识、三层各写什么、产出即文件。
-crafts: [map-authoring, codebase-survey, genome-navigation, output-discipline]
-
+procedures:
+- experience-distill
+crafts:
+- map-authoring
+- codebase-survey
+- genome-navigation
+- output-discipline
 tools:
-  allow: [Read, Grep, Glob, Write, Edit, Bash]
-  # 断网。知识蒸馏不需要外网,而这个角色的写权限是三个里最危险的。
-  deny: [WebFetch, WebSearch]
-
+  allow:
+  - Read
+  - Grep
+  - Glob
+  - Write
+  - Edit
+  - Bash
+  deny:
+  - WebFetch
+  - WebSearch
 permissions:
-  # 含 `genome/rules/**`:规则文件只有这个角色能动,豁免写在项目的 protected.yaml 里。
-  write_paths: ["genome/**", "tasks/{task_id}/**"]
-  # 业务代码由开发员工改。
-  forbid_paths: ["repos/**"]
-
+  write_paths:
+  - genome/**
+  - tasks/{task_id}/**
+  forbid_paths:
+  - repos/**
+assignee: ''
