@@ -1,6 +1,6 @@
 id: adversary-employee
 name: 对抗员工
-runtime: agentteams
+runtime: claude-code
 model: default
 prompt: prompts/adversary.md
 procedures:
