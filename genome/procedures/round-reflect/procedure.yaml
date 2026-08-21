@@ -2,29 +2,21 @@ id: round-reflect
 version: 1.0.0
 summary: 一轮修复失败之后,写下一条关于"这次为什么错"的假设,供下一轮验证
 kind: agentic
-
-# 不声明 trigger.states:它由编排器在**回到开发态、派发开发之前**插进来,不是状态机的
-# 一条边。派发时机由修复循环决定——只有存在"下一轮"时才反思,因为一条永远等不到下一轮
-# 的假设拿不到章,而在途教训的全部价值来自那枚章。
-
 inputs:
   schema:
     type: object
     properties:
-      task_id: {type: string}
-      round: {type: integer}
-      failure: {type: string}
-
+      task_id:
+        type: string
+      round:
+        type: integer
+      failure:
+        type: string
 outputs:
   schema_ref: schemas/out.json
-
-# 新项目先给宽额度；统一收紧走系统设置里的单作业预算，仍会与这里取小值。
-#
-# **这一步天然是便宜的**(读一份失败报告、写两句话),但它每一轮都要跑一次——真要控它的成本,
-# 该动的是根配置的单作业预算,不是在这里写死一个小数字。工序自己压额度正是「预算档位不该由
-# 系统猜」要拦的事。
 budget:
   max_tokens: 100000000
-
 compat:
-  runtimes: [claude-code]
+  runtimes:
+  - claude-code
+  - agentteams

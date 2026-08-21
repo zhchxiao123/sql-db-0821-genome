@@ -2,23 +2,24 @@ id: code-develop
 version: 1.0.0
 summary: 在授权的业务仓里实现需求并让本模块测试通过
 kind: agentic
-
 trigger:
-  states: [DEVELOPING]
-
+  states:
+  - DEVELOPING
 inputs:
   schema:
     type: object
-    required: [requirement]
+    required:
+    - requirement
     properties:
-      requirement: {type: string}
-      module_ids: {type: array, items: {type: string}}
-
+      requirement:
+        type: string
+      module_ids:
+        type: array
+        items:
+          type: string
 outputs:
   schema_ref: schemas/out.json
-
 compat:
-  runtimes: [claude-code]
-
-# 不声明 failure.on_fail:开发失败没有对应的迁移事件,它由状态机按 failure_kind
-# 在 DEVELOPING 态内重试(PRD 05)。硬凑一个现有事件会让状态机走错分支。
+  runtimes:
+  - claude-code
+  - agentteams
