@@ -1,0 +1,19 @@
+# 变更影响规则:什么样的 diff 必须触发集成测试。
+# 规则优先于 Agent 判断——确定的事由规则保证稳定,灰色地带才交给 Agent 补位。
+rules:
+  - id: interface-schema
+    description: 触碰跨模块契约
+    match: {touches_interface_schema: true}
+    requires_itest: true
+  - id: migrations
+    description: 触碰数据库迁移
+    match: {touches_migrations: true}
+    requires_itest: true
+  - id: cross-module
+    description: 一次改动跨越两个以上模块
+    match: {crosses_modules_gte: 2}
+    requires_itest: true
+  - id: deploy-files
+    description: 触碰部署或集成测试编排文件
+    match: {path_globs: ["itest/**", "deploy/**", "docker-compose*.y*ml", "**/Dockerfile"]}
+    requires_itest: true

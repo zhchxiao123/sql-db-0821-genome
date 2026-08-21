@@ -1,0 +1,18 @@
+# 受保护路径与高风险路径。
+# protected_paths: 触碰即判越权,Job 直接失败并回滚工作区。
+#   写成 `- <glob>` 表示谁都不能动;要留口子就写 writable_by,值是员工 id。
+#   豁免只能写在这里,不能写在员工定义里——员工要是能给自己开豁免,这份名单就只是建议。
+# high_risk:      命中即强制转人工审批。
+protected_paths:
+  # 规则是项目的宪法,只有架构员工能改。开发员工能改规则就等于能自己给自己开绿灯。
+  - path: genome/rules/**
+    writable_by: [arch-employee]
+  - .github/**
+  - .gitmodules
+high_risk:
+  - id: migrations
+    description: 数据库迁移不可逆
+    path_globs: ["**/migrations/**"]
+  - id: mass-deletion
+    description: 单次改动删除量过大
+    deleted_lines_gt: 500

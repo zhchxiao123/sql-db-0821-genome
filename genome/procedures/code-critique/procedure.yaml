@@ -1,0 +1,28 @@
+id: code-critique
+# 1.1.0:意见分两个轴(规范 / 需求),要合并必须交一份验收标准覆盖表。
+# 1.2.0:锚点从序号改成验收标准的 id(PRD 53)——序号会随一次重排漂走。
+version: 1.2.0
+summary: 对一轮开发产出做两轴评审(合不合规范、是不是需求要的),产出结构化意见小票
+kind: agentic
+
+trigger:
+  states: [DEVELOPING]
+
+inputs:
+  schema:
+    type: object
+    required: [requirement]
+    properties:
+      requirement: {type: string}
+      module_ids: {type: array, items: {type: string}}
+      # spec 轴的对照物。**锚点是它们的 id**,不是序号——序号会随一次重排漂走。
+      acceptance: {type: array, items: {type: object}}
+
+outputs:
+  schema_ref: schemas/out.json
+
+compat:
+  runtimes: [claude-code]
+
+# 不声明 failure.on_fail:批判失败没有独立迁移事件。环会保留工作现场，并把失败节点交给
+# 外层修复轮次；越权则由编排器直接升级人工。

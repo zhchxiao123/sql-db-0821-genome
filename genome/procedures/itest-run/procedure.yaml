@@ -1,0 +1,25 @@
+id: itest-run
+version: 1.0.0
+summary: 拉起集成环境跑跨模块用例,失败时给出嫌疑文件与修复建议
+kind: hybrid
+
+trigger:
+  states: [INTEGRATION_TESTING]
+
+inputs:
+  schema:
+    type: object
+    properties:
+      task_id: {type: string}
+      modules: {type: array, items: {type: string}}
+
+outputs:
+  artifacts: [itest-report.json]
+  schema_ref: schemas/out.json
+
+# 新项目先给宽额度；统一收紧走系统设置里的单作业预算，仍会与这里取小值。
+budget:
+  max_tokens: 100000000
+
+compat:
+  runtimes: [claude-code]

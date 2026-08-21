@@ -1,0 +1,25 @@
+# 测试数字员工。出题的人,不是答题的人。
+id: tester-employee
+name: 测试员工
+runtime: claude-code
+model: default
+prompt: prompts/tester.md
+
+procedures: [write-tests]
+
+crafts: [test-design, genome-navigation, output-discipline]
+
+tools:
+  # 有 Bash:它要真的跑一遍,确认自己出的题是红的。
+  allow: [Read, Grep, Glob, Write, Edit, Bash]
+  deny: [WebFetch, WebSearch]
+
+permissions:
+  # **只写测试路径**,而且只在本任务生效模块之下。"出题人碰不了实现"是**角色级**事实,
+  # 所以它写在这里而不是算出来的——边界要可读、可评审。
+  #
+  # **改这里就是改"哪些路径算测试"**:专职档下开发员工被禁掉的正是这几条,由这份定义推出来。
+  # 所以两侧永远一致,不存在"配置改了、定义没改"这种半生效状态。
+  write_paths: ["{task_modules}/**/tests/**", "{task_modules}/**/test/**", "{task_modules}/**/test_*.*", "{task_modules}/**/*_test.*", "tasks/{task_id}/**"]
+  forbid_paths: ["genome/rules/**", ".github/**", ".gitmodules"]
+

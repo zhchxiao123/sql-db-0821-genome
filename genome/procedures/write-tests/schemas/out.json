@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "task_id",
+    "producer",
+    "created_at",
+    "passed",
+    "test_files",
+    "red"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "producer": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "evidence": {}
+        }
+      }
+    },
+    "test_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "acceptance_covered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "acceptance_ref",
+          "tests"
+        ],
+        "properties": {
+          "acceptance_ref": {
+            "type": "string",
+            "pattern": "^a[0-9]+$"
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "red": {
+      "type": "boolean"
+    }
+  }
+}

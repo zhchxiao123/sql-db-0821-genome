@@ -1,0 +1,22 @@
+# 评审数字员工。只批不改——它连写入工具都没有。
+id: reviewer-employee
+name: 评审员工
+runtime: claude-code
+model: default
+prompt: prompts/reviewer.md
+
+procedures: [code-critique]
+
+# 两个轴各一份:合不合规范(判据不足时的基线)、是不是需求要的(逐条对照验收标准)。
+crafts: [rule-compliance, smell-baseline, spec-fidelity, genome-navigation]
+
+tools:
+  # **没有 Write / Edit / Bash。** 只读不是一句承诺,是它手里根本没有那几把工具。
+  allow: [Read, Grep, Glob]
+  deny: [WebFetch, WebSearch]
+
+permissions:
+  # 只写自己的产物。业务代码与基因组一律不可写——它要是能改代码,批判就会变成迁就。
+  write_paths: ["tasks/{task_id}/**"]
+  forbid_paths: ["repos/**", "genome/**"]
+

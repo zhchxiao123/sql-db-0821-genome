@@ -1,0 +1,25 @@
+id: write-tests
+# 1.1.0:覆盖对应关系改用验收标准的 id,不再拿全文当 key(PRD 53)。
+# 1.2.0:出题人降为编码器(PRD 65)——标准带规格指针时照规格编码,规格里有的必须全部落地;
+#        覆盖矩阵的行方向从此在需求解析锁死。没有指针的计划(存量)行为一个字不变。
+version: 1.2.0
+summary: 把用例规格编码成可执行测试(没有规格时按验收标准出题),写完是红的
+kind: agentic
+
+trigger:
+  states: [DEVELOPING]
+
+inputs:
+  schema:
+    type: object
+    required: [requirement]
+    properties:
+      requirement: {type: string}
+      acceptance: {type: array, items: {type: object}}
+      module_ids: {type: array, items: {type: string}}
+
+outputs:
+  schema_ref: schemas/out.json
+
+compat:
+  runtimes: [claude-code]

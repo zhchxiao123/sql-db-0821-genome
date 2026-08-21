@@ -1,0 +1,34 @@
+# 决策数字员工。决定"这一个任务怎么打",不下场干活。
+id: decision-employee
+name: 决策员工
+runtime: claude-code
+model: default
+prompt: prompts/decision.md
+
+# plan 类工序**只有它**能调。归属排他:两个员工都能干同一道的话,事件面上"该质询谁"
+# 就没有答案了。
+procedures: [requirement-analysis, itest-decide]
+
+# 它要在陌生代码里判断"这次动哪儿",所以带勘察与按需取知识;产出是给人读的,所以带产出纪律。
+# 它的两件事各一份:验收标准怎么写才可判定(以及这次在哪一层验),拆分怎么下刀。
+# 后者是机器拦不住的那条——数量界限、无环、批内引用,横切的提案 schema 全过。
+crafts:
+  - acceptance-authoring
+  - requirement-normalization
+  - case-specification
+  - vertical-slicing
+  - codebase-survey
+  - genome-navigation
+  - output-discipline
+
+tools:
+  # 没有 Bash:它的活是读与判断,不是执行。
+  allow: [Read, Grep, Glob, Write, Edit]
+  deny: [WebFetch, WebSearch]
+
+permissions:
+  # 只写本任务的计划产物。**只读全库、只写这一个任务**——它决定怎么打,不下场打。
+  write_paths: ["tasks/{task_id}/**"]
+  # 业务代码由开发员工改,项目认知由架构员工改。
+  forbid_paths: ["repos/**", "genome/**"]
+

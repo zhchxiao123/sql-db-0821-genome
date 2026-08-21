@@ -1,0 +1,26 @@
+id: adversarial-probe
+version: 1.0.0
+summary: 以不变量为攻击清单构造边界与异常输入,每条发现带复现命令
+kind: agentic
+
+trigger:
+  states: [UNIT_TESTING]
+
+inputs:
+  schema:
+    type: object
+    properties:
+      task_id: {type: string}
+      changed_files: {type: array, items: {type: string}}
+      acceptance: {type: array, items: {type: string}}
+      invariants: {type: array, items: {type: string}}
+
+outputs:
+  schema_ref: schemas/out.json
+
+# 新项目先给宽额度；统一收紧走系统设置里的单作业预算，仍会与这里取小值。
+budget:
+  max_tokens: 100000000
+
+compat:
+  runtimes: [claude-code]

@@ -1,0 +1,11 @@
+# 知识地图 L0 根索引:项目是什么、有哪些模块、去哪找它们。
+# 「这个模块怎么跑」属于 modules/<id>/map.yaml;跨模块契约属于 interfaces.yaml。
+version: 1
+project:
+  name: sql-db-0821-genome
+  summary: ''
+modules:
+- id: sql-db-0821
+  path: repos/sql-db-0821/
+  summary: ''
+  map: modules/sql-db-0821/map.yaml

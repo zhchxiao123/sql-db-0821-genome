@@ -1,0 +1,23 @@
+id: unit-gate
+version: 1.0.0
+summary: 跑涉及模块的门禁,产出结构化报告
+kind: deterministic
+
+trigger:
+  # DEVELOPING 也在里面:**best-of-n 用它当适应度函数**——N 路各自跑一遍同一道门禁,
+  # 而"过闸"这两个字在两条路上必须是同一件事,所以它跑的是这道工序本身,不是仿制品。
+  states: [UNIT_TESTING, DEVELOPING]
+
+inputs:
+  schema:
+    type: object
+    properties:
+      task_id: {type: string}
+      modules: {type: array, items: {type: string}}
+
+outputs:
+  artifacts: [gate-report.json]
+  schema_ref: schemas/out.json
+
+compat:
+  runtimes: [none]

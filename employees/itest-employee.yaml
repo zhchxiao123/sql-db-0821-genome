@@ -1,0 +1,21 @@
+# 集成测试数字员工。准备环境或诊断失败，不改被测代码。
+id: itest-employee
+name: 集测员工
+runtime: claude-code
+model: default
+prompt: prompts/itest.md
+
+procedures: [itest-prepare, itest-run]
+
+# 它的产出是回给开发员工的三件套(日志、复现、建议),失败诊断是它自己那一半的纪律。
+crafts: [log-forensics, failure-diagnosis, output-discipline]
+
+tools:
+  allow: [Read, Grep, Glob, Write, Edit, Bash]
+  deny: [WebFetch, WebSearch]
+
+permissions:
+  write_paths: ["tasks/{task_id}/**", "itest/**", "repos/*/itest/**"]
+  # 不改被测代码——不然集成测试失败时,最省事的做法是把测试改成必过。
+  forbid_paths: ["repos/*/src/**"]
+

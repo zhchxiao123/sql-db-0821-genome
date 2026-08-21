@@ -1,0 +1,25 @@
+id: itest-prepare
+version: 1.0.0
+summary: 在集成测试已被判定为必要时补齐缺失的测试用例与环境资产
+kind: agentic
+
+trigger:
+  states: [UNIT_TESTING]
+
+inputs:
+  schema:
+    type: object
+    properties:
+      task_id: {type: string}
+      modules: {type: array, items: {type: string}}
+      compose_file: {type: string}
+      decision: {type: object}
+
+outputs:
+  schema_ref: schemas/out.json
+
+budget:
+  max_tokens: 100000000
+
+compat:
+  runtimes: [claude-code]

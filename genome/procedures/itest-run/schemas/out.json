@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "task_id",
+    "producer",
+    "created_at",
+    "passed",
+    "kind",
+    "env"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "producer": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case",
+          "message"
+        ],
+        "properties": {
+          "case": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "log_tail": {
+            "type": "string"
+          },
+          "log_truncated": {
+            "type": "boolean"
+          },
+          "repro_cmd": {
+            "type": "string"
+          },
+          "suspect_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "suggestion": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "kind": {
+      "type": "string"
+    },
+    "env": {
+      "type": "object",
+      "required": [
+        "project",
+        "submodule_pointers"
+      ],
+      "properties": {
+        "project": {
+          "type": "string"
+        },
+        "compose_file": {
+          "type": "string"
+        },
+        "built_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interfaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "submodule_pointers": {
+          "type": "object"
+        },
+        "logs": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
