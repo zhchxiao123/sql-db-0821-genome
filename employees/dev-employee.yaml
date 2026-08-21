@@ -1,6 +1,6 @@
 id: dev-employee
 name: 开发员工
-runtime: agentteams
+runtime: claude-code
 model: default
 prompt: prompts/dev.md
 procedures:
