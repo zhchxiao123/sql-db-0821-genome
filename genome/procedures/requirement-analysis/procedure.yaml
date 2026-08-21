@@ -1,33 +1,29 @@
 id: requirement-analysis
-# 1.1.0:产物加 `split` 互斥变体(PRD 48)——"这不是一个任务能交付的"从此是一个合法结论。
-# 1.2.0:验收标准从裸字符串升成对象(PRD 53)——它要有稳定 id 才能被下游引用,
-#        而"这次在哪一层验"从此有了自己的一格。
-# 1.3.0:产出即文件(PRD 65)——范围界定与假设账本落成 `scope.md`、散文需求规范化成
-#        `requirements.md`、每条验收标准展开成 `cases/<id>.md`;小票加 `questions[]` 与
-#        `acceptance[].detail` 索引它们,由确定性校验双向对账。`required` 一个字没动,
-#        既有回放录制不受影响。
 version: 1.3.0
 summary: 读需求与项目地图,产出范围界定、规范化需求、验收标准与用例规格;拆不动时产出拆分提案
 kind: agentic
-
-# plan 类:决定"这一个任务怎么打"。**归属排他**——加载器会拒收两个员工同时声明它的花名册。
 ownership: plan
-
 trigger:
-  states: [CREATED]
-
+  states:
+  - CREATED
 inputs:
   schema:
     type: object
-    required: [requirement]
+    required:
+    - requirement
     properties:
-      requirement: {type: string}
-      task_id: {type: string}
-
+      requirement:
+        type: string
+      task_id:
+        type: string
 outputs:
-  # 产物不止小票:给人读的那几份是真正的文件,由确定性校验裁决(ADR-0006)。
-  artifacts: [scope.md, requirements.md, cases/, closure.md]
+  artifacts:
+  - scope.md
+  - requirements.md
+  - cases/
+  - closure.md
   schema_ref: schemas/out.json
-
 compat:
-  runtimes: [claude-code]
+  runtimes:
+  - claude-code
+  - agentteams

@@ -2,29 +2,35 @@ id: itest-decide
 version: 1.0.0
 summary: 影响规则一条都没命中时,判断这次改动要不要跑集成测试
 kind: agentic
-
-# plan 类,理由同 requirement-analysis。
 ownership: plan
-
 trigger:
-  states: [UNIT_TESTING]
-
+  states:
+  - UNIT_TESTING
 inputs:
   schema:
     type: object
     properties:
-      task_id: {type: string}
-      impact: {type: object}
-      risks: {type: array, items: {type: string}}
-      changed_files: {type: array, items: {type: string}}
-      modules: {type: array, items: {type: string}}
-
+      task_id:
+        type: string
+      impact:
+        type: object
+      risks:
+        type: array
+        items:
+          type: string
+      changed_files:
+        type: array
+        items:
+          type: string
+      modules:
+        type: array
+        items:
+          type: string
 outputs:
   schema_ref: schemas/out.json
-
-# 新项目先给宽额度；统一收紧走系统设置里的单作业预算，仍会与这里取小值。
 budget:
   max_tokens: 100000000
-
 compat:
-  runtimes: [claude-code]
+  runtimes:
+  - claude-code
+  - agentteams
