@@ -2,26 +2,20 @@ id: experience-distill
 version: 1.0.0
 summary: 从一个任务留下的素材里蒸馏出可复用的经验卡片
 kind: agentic
-
-# 不声明 trigger.states:蒸馏发生在任务**已经终结之后**,那时状态是 COMPLETED 或
-# ESCALATED,而它们都是终态。派发时机由进化管道决定,不由状态机。
-
 inputs:
   schema:
     type: object
     properties:
-      task_id: {type: string}
-      material: {type: object}
-
-# 产出是产物目录 staging/lessons/ 下的真实卡片文件(PRD 34:产出即文件)。
-# 成败由 staging 校验裁决;result.json 是小票,只补充不裁决。
+      task_id:
+        type: string
+      material:
+        type: object
 outputs:
   schema_ref: schemas/out.json
   staging: lessons
-
-# 新项目先给宽额度；统一收紧走系统设置里的单作业预算，仍会与这里取小值。
 budget:
   max_tokens: 100000000
-
 compat:
-  runtimes: [claude-code]
+  runtimes:
+  - claude-code
+  - agentteams
