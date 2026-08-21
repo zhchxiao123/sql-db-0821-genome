@@ -1,23 +1,28 @@
-# 对抗 QA 数字员工。以搞破坏为立场,但不改被测代码。
 id: adversary-employee
 name: 对抗员工
-runtime: claude-code
+runtime: agentteams
 model: default
 prompt: prompts/adversary.md
-
-procedures: [adversarial-probe]
-
-crafts: [attack-methods, output-discipline]
-
+procedures:
+- adversarial-probe
+crafts:
+- attack-methods
+- output-discipline
 tools:
-  # **必须有 Bash。** 没有它就产不出能被人独立执行的复现命令,而没有复现命令的发现一律拒收。
-  allow: [Read, Grep, Glob, Write, Edit, Bash]
-  deny: [WebFetch, WebSearch]
-
+  allow:
+  - Read
+  - Grep
+  - Glob
+  - Write
+  - Edit
+  - Bash
+  deny:
+  - WebFetch
+  - WebSearch
 permissions:
-  # 只写本任务的产物目录。攻击脚本与用例落在自己那个产物槽里——走既有编址,于是它们进
-  # 血缘清单、进证据固化、前端产物面看得见。另开一个 attack/ 目录等于把这批产物排除在外。
-  write_paths: ["tasks/{task_id}/**"]
-  # 一次"攻击"不能顺手改了被测代码。战果要进回归集的话走转正提案,过门禁、过评审。
-  forbid_paths: ["repos/**", "genome/**"]
-
+  write_paths:
+  - tasks/{task_id}/**
+  forbid_paths:
+  - repos/**
+  - genome/**
+assignee: ''
