@@ -33,7 +33,7 @@ runtime:
       model_tiers: {}
   default_is_explicit: true
 concurrency:
-  global_jobs: 3
+  global_jobs: 30
 topology:
   default: single
   critique:
