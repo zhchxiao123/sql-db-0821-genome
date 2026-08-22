@@ -36,9 +36,9 @@ topology:
     max_attempts: 3
 budgets:
   enforce: true
-  per_task_tokens: 1500000
+  per_task_tokens: 150000000
   per_job_tokens: 30000000
-  session_tokens: 1500000
+  session_tokens: 15000000
 limits:
   max_fix_rounds: 3
   job_timeout_s: 3600
