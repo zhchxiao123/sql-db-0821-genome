@@ -41,7 +41,7 @@ topology:
   best_of_n:
     max_attempts: 3
 budgets:
-  enforce: true
+  enforce: false
   per_task_tokens: 150000000
   per_job_tokens: 30000000
   session_tokens: 15000000
