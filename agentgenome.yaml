@@ -3,7 +3,7 @@ runtime:
   runtimes:
     claude-code:
       cmd: claude
-      max_turns: 100000000
+      max_turns: 40000
       endpoint: null
       consumer_token_env: null
       transport: http
@@ -17,35 +17,41 @@ runtime:
       agentteams_max_job_runtime_s: 3600
       model_tiers: {}
     agentteams:
-      transport: matrix-minio
+      cmd: null
+      max_turns: 4000
       endpoint: http://192.168.107.2:8090
       consumer_token_env: AGENTTEAMS_CONSUMER_TOKEN
+      transport: matrix-minio
       matrix_homeserver: http://192.168.107.2:8080
+      matrix_room: null
       matrix_token_env: AGENTTEAMS_MATRIX_TOKEN
-      space_id: sql-db-0821
       storage_prefix: agentteams/agentteams-storage
-      agentteams_max_job_runtime_s: '3600'
+      space_id: sql-db-0821
+      worker: null
+      mc_cmd: mc
+      agentteams_max_job_runtime_s: 3600
+      model_tiers: {}
   default_is_explicit: true
 concurrency:
-  global_jobs: 3
+  global_jobs: 30
 topology:
   default: single
   critique:
-    max_rounds: 100000000
+    max_rounds: 3
   best_of_n:
-    max_attempts: 100000000
+    max_attempts: 3
 budgets:
   enforce: false
-  per_task_tokens: 100000000
-  per_job_tokens: 100000000
-  session_tokens: 100000000
+  per_task_tokens: 150000000
+  per_job_tokens: 30000000
+  session_tokens: 15000000
 limits:
-  max_fix_rounds: 100000000
-  job_timeout_s: 604800
+  max_fix_rounds: 3
+  job_timeout_s: 3600
 itest:
-  timeout_s: 604800
+  timeout_s: 3600
 genome_tasks:
-  per_task_tokens: 100000000
+  per_task_tokens: 1500000
 knowledge:
   root_index_lines: 150
   module_map_lines: 200
