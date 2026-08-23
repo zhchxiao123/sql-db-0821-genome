@@ -1,15 +1,86 @@
 # 模块地图 L1:这个模块怎么跑、依赖谁。
 id: sql-db-0821
+lang: go
 entrypoints: []
 depends_on: []
 doc: genome/knowledge/modules/sql-db-0821/overview.md
 confidence: 0.9
+source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
 features:
-- id: empty-scaffold
-  summary: 仓库当前只有 13 字节的 README.md 标题行(# sql-db-0821),没有任何业务代码、构建配置、测试或数据存储,模块整体处于空骨架状态。
+- id: lexer-parser-grammar
+  summary: 词法与语句语法:tokenize + CREATE/INSERT/UPDATE/DELETE/DROP 语句解析;子集外关键词一律返回 UnsupportedError
+    而不是普通语法错。
   scope:
+  - repos/sql-db-0821/internal/engine/parser.go
+  - repos/sql-db-0821/internal/engine/errors.go
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/lexer-parser-grammar.md
+- id: expression-type-system
+  summary: SQLite 兼容的值系统与表达式求值:5 类 storage class、列 affinity、算术/比较/逻辑/IN/BETWEEN/LIKE/GLOB/CAST、NULL
+    传播与整数溢出升 REAL。
+  scope:
+  - repos/sql-db-0821/internal/engine/value.go
+  - repos/sql-db-0821/internal/engine/expr.go
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/expression-type-system.md
+- id: select-query-pipeline
+  summary: 单表 SELECT 执行管线:FROM/WHERE/GROUP BY/HAVING/ORDER BY/LIMIT-OFFSET/DISTINCT
+    与聚合的 slot 重写物化;无 FROM 常量行。
+  scope:
+  - repos/sql-db-0821/internal/engine/parser.go
+  - repos/sql-db-0821/internal/engine/expr.go
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/select-query-pipeline.md
+- id: transaction-concurrency
+  summary: 事务与并发:快照隔离、写锁互斥('database is locked')、隐式 autocommit、语句级原子性(copy-on-write)。
+  scope:
+  - repos/sql-db-0821/internal/engine/conn.go
+  - repos/sql-db-0821/internal/engine/engine.go
+  - repos/sql-db-0821/internal/engine/engine_test.go
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/transaction-concurrency.md
+- id: persistence-crash-recovery
+  summary: -db 持久化:全量 JSON 转储,COMMIT 才落盘,temp+fsync+原子 rename+目录 fsync,重启加载,corrupt
+    报错不静默。
+  scope:
+  - repos/sql-db-0821/internal/engine/persist.go
+  - repos/sql-db-0821/internal/engine/engine_test.go
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/persistence-crash-recovery.md
+- id: cli-entrypoints
+  summary: 两个 CLI 入口与 Makefile:引擎 stdin->结果渲染、套件跑分器的默认套件 glob 与 --strict、exit 码约定。
+  scope:
+  - repos/sql-db-0821/cmd/sqldb/main.go
+  - repos/sql-db-0821/cmd/sqllogictest/main.go
+  - repos/sql-db-0821/Makefile
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/cli-entrypoints.md
+- id: sqllogictest-runner
+  summary: .test 文件解析与逐 record 判定:full/hash 两种对比、rowsort/valuesort、pass/fail/waive
+    三态、skipif/onlyif 跳过。
+  scope:
+  - repos/sql-db-0821/internal/sqllogictest/parse.go
+  - repos/sql-db-0821/internal/sqllogictest/runner.go
+  - repos/sql-db-0821/internal/sqllogictest/runner_test.go
+  produced_by: knowledge-init@2.5.0
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/sqllogictest-runner.md
+- id: suite-verification-set
+  summary: 固定的验证数据与政策:pin 到 gregrahn/sqllogictest version-3.11.0 的 suite/、验收 testdata/、抓取脚本与
+    waiver 政策(README 状态表是快照)。
+  scope:
+  - repos/sql-db-0821/suite/select*.test
+  - repos/sql-db-0821/suite/random/expr/*.test
+  - repos/sql-db-0821/testdata/*.test
+  - repos/sql-db-0821/scripts/fetch-suite.sh
   - repos/sql-db-0821/README.md
   produced_by: knowledge-init@2.5.0
-  no_card: 唯一的文件是一行 Markdown 标题,没有可提炼承重不变量、异常降级路径、测试证据或坑点的实现;写卡片只会复述 README,对后续任务没有信息量。真实代码落地后需重跑
-    knowledge-init 按命名规则拆真实功能点。
+  source_revision: eb1c889f8e5b7a69d2e5da6993af7bf9ec2c67f2
+  card: features/suite-verification-set.md
 submaps: []

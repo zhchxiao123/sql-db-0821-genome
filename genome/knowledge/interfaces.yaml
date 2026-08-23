@@ -1,3 +1,9 @@
 # 跨模块契约与数据存储。它们是跨模块的事实,挂在任何一个模块名下都是错的。
 interfaces: []
-datastores: []
+datastores:
+- id: sql-db-0821-persist-file
+  kind: file
+  owner: sql-db-0821
+  confidence: 0.6
+  description: cmd/sqldb -db <path> 模式下每次 COMMIT/隐式提交由 persist.go 原子写出的全量 状态 JSON
+    转储(非 sqlite 格式);重启由 engine.Open 加载,文件缺失算空库、文件 不可解析报 corrupt。仅供本模块使用,无迁移目录。
